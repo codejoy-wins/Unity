@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class mover : MonoBehaviour {
 
@@ -14,13 +16,24 @@ public class mover : MonoBehaviour {
     public int up;
     public int down;
 
+    public int health = 100;
+
     public static int xp = 18;
 	// Use this for initialization
 	void Start () {
+        health = 1000;
         rb = GetComponent<Rigidbody2D>();
         movingRight = true;
         movingUp = true;
 	}
+    // enemy taking hits
+    public void TakeDamage(int damage){
+        health -= damage;
+
+        if(health <= 0){
+            die();
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -50,6 +63,17 @@ public class mover : MonoBehaviour {
         {
             movingUp = false;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.name == "circle"){
+            SceneManager.LoadScene("SampleScene");
+        }
+    }
+
+    void die(){
+        Destroy(gameObject);
     }
 
 }

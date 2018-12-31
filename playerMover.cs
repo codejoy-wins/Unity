@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+// scene management if fall too far
 
 public class playerMover : MonoBehaviour {
 
@@ -8,7 +10,7 @@ public class playerMover : MonoBehaviour {
     // how do I access variables from another script??
     // by using static for the other variable and saying scriptname.staticvariable
 
-    public Rigidbody2D rb;
+    public static Rigidbody2D rb;
     public int speed;
     private float moveInput;
     private bool facingRight;
@@ -30,6 +32,33 @@ public class playerMover : MonoBehaviour {
 	}
 	
 	void Update () {
+        if(transform.position.y <-500){
+            SceneManager.LoadScene("SampleScene");
+        }
+        //rotate on demand
+
+        if (Input.GetKey("e")){
+            //Debug.Log("rotating right");
+            transform.Rotate(0f, 0f, -3f);
+        }else if(Input.GetKey("q")){
+            //Debug.Log("rotating left");
+            transform.Rotate(0f, 0f, 3f);w
+
+        }
+
+        if (Input.GetKey("i")){
+            transform.Rotate(0f, 30f, 0f);
+        }
+        if (Input.GetKey("o"))
+        {
+            transform.Rotate(0f, 1f, 0f);//turn slowly
+        }
+        if (Input.GetKey("u"))
+        {
+            transform.Rotate(0f, -1f, 0f);//turn slowly
+        }
+
+
         //  check a layer cast for the ground 
 
         isGrounded = Physics2D.OverlapCircle(feet.position, checkRadius, whatIsGround);
